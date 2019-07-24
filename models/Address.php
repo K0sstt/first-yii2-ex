@@ -32,10 +32,9 @@ class Address extends \yii\db\ActiveRecord
     {
         return [
             [['zip_code', 'country', 'city', 'street', 'house'], 'required'],
-            [['zip_code', 'house', 'office_apartment'], 'integer'],
-            [['country'], 'string', 'max' => 2],
-            [['city'], 'string', 'max' => 15],
-            [['street'], 'string', 'max' => 20],
+            [['user_id', 'zip_code', 'house', 'office_apartment'], 'integer'],
+            [['country', 'city', 'street'], 'string', 'max' => 255],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -46,6 +45,7 @@ class Address extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'user_id' => 'User ID',
             'zip_code' => 'Zip Code',
             'country' => 'Country',
             'city' => 'City',
@@ -53,5 +53,13 @@ class Address extends \yii\db\ActiveRecord
             'house' => 'House',
             'office_apartment' => 'Office/Apartment',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

@@ -3,17 +3,18 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $address app\models\Address */
+/* @var $user app\models\User */
 
-$this->title = 'Create Address';
-$this->params['breadcrumbs'][] = ['label' => 'Addresses', 'url' => ['index']];
+$this->title = 'Create User';
+$this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="address-create">
+<div class="user-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
+        'user' => $user,
         'address' => $address,
     ]) ?>
 

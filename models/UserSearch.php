@@ -4,12 +4,12 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Address;
+use app\models\User;
 
 /**
- * AddressSearch represents the model behind the search form of `app\models\Address`.
+ * UserSearch represents the model behind the search form of `app\models\User`.
  */
-class AddressSearch extends Address
+class UserSearch extends User
 {
     /**
      * {@inheritdoc}
@@ -17,8 +17,8 @@ class AddressSearch extends Address
     public function rules()
     {
         return [
-            [['id', 'user_id', 'zip_code', 'house', 'office_apartment'], 'integer'],
-            [['country', 'city', 'street'], 'safe'],
+            [['id', 'date'], 'integer'],
+            [['login', 'password', 'first_name', 'last_name', 'gender', 'email'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class AddressSearch extends Address
      */
     public function search($params)
     {
-        $query = Address::find();
+        $query = User::find();
 
         // add conditions that should always apply here
 
@@ -59,15 +59,15 @@ class AddressSearch extends Address
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
-            'zip_code' => $this->zip_code,
-            'house' => $this->house,
-            'office_apartment' => $this->office_apartment,
+            'date' => $this->date,
         ]);
 
-        $query->andFilterWhere(['like', 'country', $this->country])
-            ->andFilterWhere(['like', 'city', $this->city])
-            ->andFilterWhere(['like', 'street', $this->street]);
+        $query->andFilterWhere(['like', 'login', $this->login])
+            ->andFilterWhere(['like', 'password', $this->password])
+            ->andFilterWhere(['like', 'first_name', $this->first_name])
+            ->andFilterWhere(['like', 'last_name', $this->last_name])
+            ->andFilterWhere(['like', 'gender', $this->gender])
+            ->andFilterWhere(['like', 'email', $this->email]);
 
         return $dataProvider;
     }

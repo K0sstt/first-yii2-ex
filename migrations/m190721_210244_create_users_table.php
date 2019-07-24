@@ -20,24 +20,9 @@ class m190721_210244_create_users_table extends Migration
             'first_name' => $this->string()->notNull(),
             'last_name' => $this->string()->notNull(),
             'gender' => $this->string()->defaultValue(User::GENDER[3])->notNull(),
-            'date' => $this->dateTime()->notNull(),
+            'date' => $this->integer()->notNull(),
             'email' => $this->string()->unique()->notNull(),
-            'address_id' => $this->integer()->notNull()
         ]);
-
-        $this->createIndex(
-            'idx-users-address_id',
-            'users',
-            'address_id'
-        );
-
-        $this->addForeignKey(
-            'fk-users-address_id',
-            'users',
-            'address_id',
-            'addresses',
-            'id',
-            'CASCADE');
     }
 
     /**
