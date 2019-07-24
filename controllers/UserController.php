@@ -12,6 +12,7 @@ use yii\filters\VerbFilter;
 use DateTime;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\data\Pagination;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -42,9 +43,15 @@ class UserController extends Controller
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $pagination = new Pagination([
+            'defaultPageSize' => 5,
+            'totalCount' => User::find()->count(),
+        ]);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'pagination' => $pagination,
         ]);
     }
 
@@ -58,10 +65,11 @@ class UserController extends Controller
     {
         $user = $this->findModel($id);
         $user->date = Yii::$app->formatter->asDateTime($user->date, 'Y-m-d H:i:s');
-        die(print_r($user->getAddresses()));
+        // die(print_r($user->getAddresses()));
+        $addresses = Address::find()->where(['user_id' => $user->id])->all();
         return $this->render('view', [
             'user' => $user,
-            'address' => $user
+            'addresses' => $addresses
         ]);
     }
 
